@@ -1,0 +1,101 @@
+// company creates queue
+POST http://localhost:3000/company/queue HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_id": 1234567890,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// company activates queue
+PUT http://localhost:3000/company/queue?queue_id=QUEUE12345 HTTP/1.1
+Content-Type: application/json
+
+{
+    "status": "ACTIVATE"
+}
+
+
+// 2. Company is able to stop Customers from joining queues
+// Given That a queue is active AND customers are constantly joining the queue
+// When The company deactivate the queue
+// Then The customers would eventually no longer be able to join the queue AND arrival rate drops to zero.
+
+###
+// customer joins queue
+POST http://localhost:3000/customer/queue HTTP/1.1
+Content-Type: application/json
+{
+    "customer_id": 1234567890,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// company deactivates queue
+PUT http://localhost:3000/company/queue?queue_id=QUEUE12345 HTTP/1.1
+Content-Type: application/json
+
+{
+    "status": "DEACTIVATE"
+}
+
+###
+// customer try to join queue but couldnt join
+POST http://localhost:3000/customer/queue HTTP/1.1
+Content-Type: application/json
+{
+    "customer_id": 0123456789,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// company checks arrival rate
+GET http://localhost:3000/company/localhost:3000/company/arrival_rate
+        ?queue_id=QUEUE12345
+        &from=2020-11-25T00%3A45%3A00%2B08%3A00
+        &duration=5 HTTP/1.1
+
+###
+
+// 4. Multiple customer is able to join an active queue concurrently
+// Given That there is an active queue
+// When More than 1 customer try to join the queue at the same time
+// Then All the customers will see success and are eventually in the queue AND the arrival rate would reflect a spike around this time.
+
+// customer joins queue
+POST http://localhost:3000/customer/queue HTTP/1.1
+Content-Type: application/json
+{
+    "customer_id": 4882949273,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// another customer joins the same queue
+POST http://localhost:3000/customer/queue HTTP/1.1
+Content-Type: application/json
+{
+    "customer_id": 8429475937,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// another customer joins the same queue
+POST http://localhost:3000/customer/queue HTTP/1.1
+Content-Type: application/json
+{
+    "customer_id": 0284650734,
+    "queue_id": "QUEUE12345"
+}
+
+###
+// customer checks queue (not sure if need or not)
+GET http://localhost:3000/customer/queue?queue_id=QUEUE12345&customer_id=0284650734 HTTP/1.1
+
+###
+// company checks arrival rate
+GET http://localhost:3000/company/localhost:3000/company/arrival_rate
+        ?queue_id=QUEUE12345
+        &from=2020-11-25T00%3A45%3A00%2B08%3A00
+        &duration=5 HTTP/1.1

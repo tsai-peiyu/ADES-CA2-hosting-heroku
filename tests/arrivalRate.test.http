@@ -1,0 +1,24 @@
+@host = localhost:3000
+@path = /company/arrival_rate
+
+//Arrival Rate Test Case 1 (Success)
+GET http://{{host}}{{path}}
+        ?queue_id=QUEUE12345
+        &from=2020-11-25T00%3A45%3A00%2B08%3A00
+        &duration=5 HTTP/1.1
+
+###
+
+//Arrival Rate Test Case 2 (Error - Non-existence Queue Id)
+GET http://{{host}}{{path}}
+        ?queue_id=queue12346
+        &from=2020-11-25T00%3A45%3A00%2B08%3A00
+        &duration=5 HTTP/1.1
+
+###
+
+//Arrival Rate Test Case 3 (Error - Error in query parameters)
+GET http://{{host}}{{path}}
+        ?queue_id=queue12345
+        &from=2020-11-25T00:45:00Z
+        &duration=5 HTTP/1.1

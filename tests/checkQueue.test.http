@@ -1,0 +1,25 @@
+@host = localhost:3000
+@path = /customer/queue
+
+//Check Queue Test Case 1 (Success)
+GET http://{{host}}{{path}}?queue_id=QUEUE12345&customer_id=1234567890 HTTP/1.1
+
+###
+
+//Check Queue Test Case 2 (Success - Next to be assigned to server)
+GET http://{{host}}{{path}}?queue_id=QUEUE12345&customer_id=9999999999 HTTP/1.1
+
+### 
+
+//Check Queue Test Case 3 (Success - Customer not in queue(Never Joined/Missed) /Customer Id not provided)
+GET http://{{host}}{{path}}?queue_id=QUEUE12345 HTTP/1.1
+
+### 
+
+//Check Queue Test Case 4 (Error - Non-existence Queue Id)
+GET http://{{host}}{{path}}?queue_id=1234567890&customer_id=1234567890 HTTP/1.1
+
+### 
+
+//Check Queue Test Case 5 (Error - Error in query parameters)
+GET http://{{host}}{{path}}?queue_id=QUEUE12345&customer_id=123456789 HTTP/1.1

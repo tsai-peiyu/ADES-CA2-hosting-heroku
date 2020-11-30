@@ -1,0 +1,56 @@
+@host = localhost:3000
+@path = /customer/queue
+
+// Join Queue Test Case 1 (Success)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 1234567890,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Join Queue Test Case 2 (Success - Multiple people joining queue)
+//Join Queue Test Case 3 (Error - Customer already in Queue)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 9999999999,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Join Queue Test Case 4 (Error - Queue is Inactive)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 9876543212,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Join Queue Test Case 5 (Error - Error in Body Parameters)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 987654321,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Join Queue Test Case 6 (Error - Non-existence Queue Id)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 9999999999,
+    "queue_id": "0000000000"
+}

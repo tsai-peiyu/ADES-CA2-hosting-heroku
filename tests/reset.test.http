@@ -1,0 +1,4 @@
+@host = http://localhost:3000
+
+//Reset Test Case 1 (Success)
+POST {{host}}/reset HTTP/1.1

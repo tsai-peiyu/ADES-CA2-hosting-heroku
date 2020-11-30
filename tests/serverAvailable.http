@@ -1,0 +1,32 @@
+@host = localhost:3000
+@path = /company/server
+
+//Server Available Test Case 1 (Success) 1234567890
+//Server Available Test Case 2 (Success - 2nd Poll) 9999999999
+//Server Available Test Case 3 (Success - No Customer In Queue) 0
+PUT http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Server Available Test Case 4 (Error - Queue Id does not exists)
+PUT http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "queue_id": "2222222222"
+}
+
+###
+
+//Server Available Test Case 5 (Error - Error in body parameters)
+PUT http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "queue_id": 1234567890
+}

@@ -1,0 +1,82 @@
+@host = localhost:3000
+@pathCompany = /company/queue
+@pathCustomer = /customer/queue
+
+// Company 1234567890 creates Queue 'QUEUE12345'
+POST http://{{host}}{{pathCompany}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_id": 1234567890,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+// Company 1234567890 activates Queue 'QUEUE12345'
+PUT http://{{host}}{{pathCompany}}?queue_id=QUEUE12345 HTTP/1.1
+Content-Type: application/json
+
+{
+    "status": "ACTIVATE"
+}
+
+###
+
+// Customer 3456789012 joins queue 'QUEUE12345'
+POST http://{{host}}{{pathCustomer}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 3456789012,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+// Customer 9999999999 joins queue 'QUEUE12345'
+POST http://{{host}}{{pathCustomer}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "customer_id": 9999999999,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+// Company 1234567890 assign next customer to server when server is available
+PUT http://{{host}}/company/server HTTP/1.1
+Content-Type: application/json
+
+{
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+// Customer 9999999999 checks Queue 'QUEUE12345'
+GET http://{{host}}{{pathCustomer}}?queue_id=QUEUE12345&customer_id=9999999999 HTTP/1.1
+
+###
+
+// Company 1234567890 checks for the number of arrivals for Queue 'QUEUE12345' within a certain period of time
+GET http://{{host}}/company/arrival_rate
+?queue_id=QUEUE12345
+&from=2020-11-25T15%3A20%3A00%2B08%3A00
+&duration=10 HTTP/1.1
+
+###
+
+// Company 1234567890 deactivates Queue 'QUEUE12345'
+PUT http://{{host}}{{pathCompany}}?queue_id=QUEUE12345 HTTP/1.1
+Content-Type: application/json
+
+{
+    "status": "DEACTIVATE"
+}
+
+###
+
+// Reset System
+POST http://{{host}}/reset HTTP/1.1

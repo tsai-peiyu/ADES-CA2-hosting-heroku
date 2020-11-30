@@ -1,0 +1,33 @@
+@host = localhost:3000
+@path = /company/queue
+
+//Create Queue Test Case 1 (Success)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_id": 1234567890,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Create Queue Test Case 2 (Error - Queue Id already exists)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_id": 8912345678,
+    "queue_id": "QUEUE12345"
+}
+
+###
+
+//Create Queue Test Case 3 (Error - Error in body parameters)
+POST http://{{host}}{{path}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "company_id": 123456789,
+    "queue_id": "QUEUE12345"
+}
