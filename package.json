@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "engines": {
+        "node": "12.11.1"
+    },
     "scripts": {
         "test": "jest -i",
         "start": "node server.js"
@@ -14,6 +17,7 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "jsonschema": "^1.4.0",
+        "morgan": "^1.10.0",
         "pg": "^8.5.0"
     },
     "devDependencies": {
@@ -23,7 +27,6 @@
         "jest-circus": "^26.5.2",
         "jest-html-reporters": "^2.1.0",
         "loadtest": "^5.1.0",
-        "morgan": "^1.10.0",
         "supertest": "^4.0.2"
     },
     "jest": {
